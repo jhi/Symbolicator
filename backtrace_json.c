@@ -43,7 +43,7 @@ int main() {
 #undef JSON_NUM
         printf("\"address\":\"%jx\"", (uintptr_t)frames[i]);
       } else {
-        fprintf(stderr, "SymblicatorGetSelf failed for frames[%d] = %jx\n", i,
+        fprintf(stderr, "SymblicatorSymbolicate failed for frames[%d] = %jx\n", i,
                 (uintptr_t)frames[i]);
       }
       printf("}%s\n", i < last ? "," : "");
