@@ -1,3 +1,26 @@
+1. BUILDING
+
+You'll need to build this in OS X.
+
+Run "make".
+
+You'll get three executables:
+
+   - SymbolicatorTest
+   - backtrace_symbols
+   - backtrace_json
+
+SymbolicatorTest uses the Symbolicator to get the symbolic information
+of the calling subroutine.
+
+backtrace_symbols does not use the Symbolicator but instead the usual
+backtrace() + backtrace_symbols(), for comparison.
+
+backtrace_json uses backtrace() and the Symbolicator to generate
+backtraces in JSON.
+
+2. BACKGROUND
+
 The CoreSymbolicator API is an undocumented API of Apple used in OS
 X and assumedly also in iOS.  So this underlying API is copyright Apple.
 
