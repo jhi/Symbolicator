@@ -1,0 +1,48 @@
+The CoreSymbolicator API is an undocumented API of Apple used in OS
+X and assumedly also in iOS.  So this underlying API is copyright Apple.
+
+How this undocumented API works was I think originally
+reverse engineered by R J Cooper, Copyright Mountainstorm:
+
+  https://github.com/mountainstorm/CoreSymbolication/
+
+The API is used for example in the atos(1) utility which is used to
+"convert addresses to their symbolic equivalents".  And by addresses
+what is meant are the kind of addresses one sees in stack traces
+during execution or after execution, that is, crash dumps.
+
+One can get such addresses by using the backtrace() API which
+comes with OS X (since 10.5), and with backtrace_symbols() one
+can get decorated version of the stack frames.  However, the
+latter only gives you predecorated opaque strings, and the
+source code information (filename and linenumber) are missing.
+
+If you need to have the values for each stack frame in more structured
+manner, you might find the Symbolicator API (Symbolicator.h) useful.
+This API is essentially just a reshaping of the mountainstorm provided API
+into a much simpler form.  Also it is plain C99, so you can easily utilize
+this all the members of the C language family, and no XCode is required.
+
+One definite limitation, though: the API works only for the addresses
+of the current process.  So no debuggers or crash analyzers.
+
+There is the same problem of predecorated strings with the output of
+atos(1).  (Another problem with atos() is that it an external utility,
+and launching it takes some time.)
+
+There is a commonly used GNU API called BFD for doing similar "address
+to info" things which is available also for OS X, but sadly that does
+not work well in OS X, the source code information is unavailable.
+
+An example of using the mountainstorm API:
+
+* https://github.com/frida/frida-gum/blob/master/gum/backend-darwin/gumsymbolutil-darwin.c
+
+Hints to the API can be found in the Apple open source bits like:
+
+* http://opensource.apple.com//source/dtrace/dtrace-168/libproc/libproc.c
+* http://opensource.apple.com//source/ChatServer/ChatServer-399/jabber_od_auth/sasl_switch_hit.c
+
+The dtrace sources were used by the mountainstorm reverse engineering effort.
+
+__END__
